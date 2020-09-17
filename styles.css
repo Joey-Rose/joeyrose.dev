@@ -1,0 +1,268 @@
+@import url("https://use.fontawesome.com/releases/v5.13.0/css/all.css");
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300");
+
+html {
+    min-height: 100%;
+}
+
+body {
+    background: linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(255 235 59 / 44%));
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+    font-size: 14pt;
+    font-weight: 300;
+    line-height: 2;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0px;
+}
+/* dont have any z indexes */
+
+#wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main {
+    max-width: 40%;
+    margin: 10px;
+    position: relative;
+    padding: 0em 3em 0em 3em;
+    background: white;
+    border-radius: 4px;
+    opacity: .95;
+    text-align: center;
+    
+    /* dunno what this is */
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.avatar:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: -3em;
+    width: calc(100% + 6em);
+    height: 1px;
+    z-index: -1;
+    background: #c8cccf;
+}
+.avatar img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 100%;
+    box-shadow: 0 0 0 1.5em #ffffff;
+}
+
+.avatar {
+    position: relative;
+    display: block;
+    margin-top: 1.5em;
+}
+
+hr {
+border: 0;
+border-bottom: solid 1px #c8cccf;
+margin: 2em 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 300;
+}
+
+li {
+    display: inline-block;
+    padding: 0.675em 0.5em;
+}
+
+ul {
+    padding-inline-start: 0px;
+    margin: 0px;
+}
+
+ul.icons li a {
+    position: relative;
+    display: block;
+    width: 3.75em;
+    height: 3.75em;
+    line-height: 3.75em;
+    overflow: hidden;
+    text-align: center;
+    text-indent: 3.75em;
+    white-space: nowrap;
+}
+
+ul.icons li a:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    font-size: 3.5rem;
+    line-height: inherit;
+    text-align: center;
+    text-indent: 0;
+    color: #ffffff;
+    text-shadow: 1.25px 0px 0px #c8cccf, -1.25px 0px 0px #c8cccf, 0px 1.25px 0px #c8cccf, 0px -1.25px 0px #c8cccf;
+}
+
+.fa-envelope:before {
+    content: "\f0e0";
+    font-family: "Font Awesome 5 Free"; /* This is the correct font-family*/
+}
+
+/* index page responsive sizing */
+@media (max-width: 576px) {
+    #index {
+        max-width: 80%;
+    }
+}
+
+@media (max-width: 992px) {
+    #index {
+        max-width: 65%;
+    }
+}
+
+@media (max-width: 1200px) {
+    #index {
+        max-width: 55%;
+    }
+}
+
+@media(min-width: 2000px) {
+    #index {
+        transform: scale(1.2);
+    }
+}
+
+@media (min-width: 3000px) {
+    #index {
+        transform: scale(1.8);
+    }
+}
+
+@media (min-width: 4000px) {
+    #index {
+        transform: scale(2.5);
+    }
+}
+
+/* projects page responsive sizing */
+@media(min-width: 2000px) {
+    #projects {
+        transform: scale(2.0);
+    }
+    .projectContainer {
+        width: 40%;
+    }
+}
+
+@media(max-width: 576px) {
+    #projects {
+        padding: 0;
+        max-width: none;
+    }
+
+    #projects img {
+        max-width: none;
+    }
+}
+
+/* aboutme page responsive sizing */
+/* index page responsive sizing */
+@media (max-width: 576px) {
+    #aboutme {
+        max-width: 80%;
+    }
+}
+
+@media (max-width: 992px) {
+    #aboutme {
+        max-width: 65%;
+    }
+}
+
+@media (max-width: 1200px) {
+    #aboutme {
+        max-width: 55%;
+    }
+}
+
+@media(min-width: 2000px) {
+    #aboutme {
+        transform: scale(1.2);
+    }
+}
+
+@media (min-width: 3000px) {
+    #aboutme {
+        transform: scale(1.8);
+    }
+}
+
+@media (min-width: 4000px) {
+    #aboutme {
+        transform: scale(2.2);
+    }
+}
+
+#projectsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.projectContainer {
+    position: relative;
+    padding: 10px;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 40vw;
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: #FFC107;
+  }
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    background-color: transparent;
+  }
+
+.projectContainer:hover .overlay {
+    opacity: 1;
+}
+.projectContainer:hover .image {
+    opacity: .3;
+}
+
+.projectContainer:hover #oxy-os-website{
+    opacity: .1;
+}
+
+.text {
+    color: black;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
