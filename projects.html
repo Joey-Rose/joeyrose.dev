@@ -8,6 +8,7 @@
   <meta name="description" content="Joey's personal website">
   <meta name="author" content="Joey Rose">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="Tab icon" href="img/tab_icon.png" type="image/x-icon" />
 
   <link rel="stylesheet" href="styles.css">
 
@@ -17,23 +18,173 @@
 <div id = "wrapper">
     <div class = "main" id = "projects">
         <h3>Projects</h3>
+        <!-- projects! -->
         <div id = "projectsContainer">
             <div class = "projectContainer">
                 <img src = "img/confessions_project.png" class = "image">
-                <div class = "overlay" onclick="location.href = 'http://joeyrose.oxycreates.org/confessionsproject/','mywindow';" style="cursor: pointer;">
+                <div class = "overlay" onclick="displayModal('oxy-confessions-project-modal', 0)" style="cursor: pointer;">
                     <div class = "text">Oxy Students' Attitudes Toward Various Topics</div>
                 </div>
             </div>
             <div class = "projectContainer">
                 <img src = "img/nba_clutch_project.png" class = "image">  
-                <div class = "overlay" onclick="location.href = 'https://github.com/Joey-Rose/nbaclutchproject','mywindow';" style="cursor: pointer;">
+                <div class = "overlay" onclick="displayModal('nba-clutch-project-modal', 1)" style="cursor: pointer;">
                     <div class = "text">NBA Clutch Project</div>
                 </div>
             </div>
             <div class = "projectContainer">
                 <img src = "img/oxyos.png" id = "oxy-os-website" class = "image">  
-                <div class = "overlay" onclick="location.href = 'https://oxyos.github.io','mywindow';" style="cursor: pointer;">
+                <div class = "overlay" onclick="displayModal('oxy-os-website-modal', 2)" style="cursor: pointer;">
                     <div class = "text">Oxy Open Source Website</div>
+                </div>
+            </div>
+            <div class = "projectContainer">
+                <img src = "img/promethium.png" class = "image">  
+                <div class = "overlay" onclick="displayModal('promethium-modal', 3)" style="cursor: pointer;">
+                    <div class = "text">Promethium Internship</div>
+                </div>
+            </div>
+            <div class = "projectContainer">
+                <img src = "img/advancement_services.png" class = "image">  
+                <div class = "overlay" onclick="displayModal('oxy-work-modal', 4)" style="cursor: pointer;">
+                    <div class = "text">Oxy Internship</div>
+                </div>
+            </div>
+        </div>
+        <!-- modals! -->
+
+        <!-- The Modal -->
+        <div id="oxy-confessions-project-modal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div>Oxy Students' Attitudes Toward Various Topics</div>
+                <div style = "text-transform: none; letter-spacing: 0em; line-height: 1.5;">
+                    <p style = "font-size: 17px; text-align: left;"><strong>Dates:</strong> July 2019 - August 2019</p>
+                    <p style = "font-size: 17px; text-align: left;"><strong>Why I made this:</strong> 
+                        "Oxy Confessions", an anonymous Facebook page started by Oxy students in October of 2013, contains 34,000+ posts
+                        consisting of gossip, strife, and honest opinions about worldly topics. Inspired by Ben Schmidt's <a href = "https://benschmidt.org/profGender/#">
+                        <i>Gendered Language in Teacher Reviews</i></a>, I made this website to reveal Oxy students' attitudes toward various 
+                        topics in the world.
+                    </p>
+                    <p style = "font-size: 17px; text-align: left;"><strong>Tools used:</strong> 
+                        Node.js, MySQL, HTML, CSS, JavaScript, Chart.js
+                    </p>
+                    <ul class = "icons">
+                        <li><a href="http://joeyrose.oxycreates.org/confessionsproject/" class="fas fa-globe" target="_blank" title="Oxy Confessions Project">Oxy Confessions Project</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- The Modal -->
+        <div id="nba-clutch-project-modal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div>NBA Clutch Project</div>
+                <div style = "text-transform: none; letter-spacing: 0em; line-height: 1.5;">
+                    <p style = "font-size: 17px; text-align: left;"><strong>Dates:</strong> December 2019 - January 2020</p>
+                    <p style = "font-size: 17px; text-align: left;"><strong>Why I made this:</strong>
+                        Everyone has an answer, but no one <i>ever</i> has enough evidence to back it up.
+                        <br> <br>
+                        ... Yes, I'm talking about comparing the clutchness of NBA players. To accurately evaluate one's clutchness, a wealth of data 
+                        across long periods of time is needed. 
+                        I built this web app to allow for the comparison of NBA players under different game scenarios, 
+                        equiping users with the tools to settle this age-old debate.
+                    </p>
+                    <p style = "font-size: 17px; text-align: left;"><strong>Tools used:</strong> 
+                        Flask, <a href = "https://github.com/swar/nba_api">nba_api</a>, HTML, CSS, JavaScript, Chart.js
+                    </p>
+                    <ul class = "icons">
+                        <li><a href="https://github.com/Joey-Rose/nbaclutchproject" class="fab fa-github" target="_blank" title="NBA Clutch Project">NBA Clutch Project</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- The Modal -->
+        <div id="oxy-os-website-modal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div>Oxy Open Source Website</div>
+                <div style = "text-transform: none; letter-spacing: 0em; line-height: 1.5;">
+                    <p style = "font-size: 17px; text-align: left;"><strong>Dates:</strong> September 2020 - Present</p>
+                    <p style = "font-size: 17px; text-align: left;"><strong>My role:</strong>
+                        Oxy Open Source is Oxy's largest computer science club. As the project lead of its website, I head a team of 3 to modernize its appearance,
+                         as well as improve the transparency of club operations. 
+                        <br><br>
+                        In terms of appearance, I've made the site responsive, personalized the 'About' page, and coordinated the completion 
+                        of minor bugs. To improve club transparency, I've filled in informational gaps in various ways, 
+                        be it displaying the tangible things that the club does on the 'Welcome' page, uploading resources from recent 
+                        workshops, integrating the events calendar, developing a page that highlights the open source projects the club coordinates,
+                        and creating another page that outlines the club's rich history. 
+                    </p>
+                    <p style = "font-size: 17px; text-align: left;"><strong>Tools used:</strong> 
+                        HTML, CSS, JavaScript
+                    </p>
+                    <ul class = "icons">
+                        <li><a href="https://oxyos.github.io/" class="fas fa-globe" target="_blank" title="Oxy Open Source Website">Oxy Open Source Website</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- The Modal -->
+        <div id="promethium-modal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div>Promethium Internship Work</div>
+                <div style = "text-transform: none; letter-spacing: 0em; line-height: 1.5;">
+                    <p style = "font-size: 17px; text-align: left;"><strong>Dates:</strong> May 2020 - August 2020</p>
+                    <p style = "font-size: 17px; text-align: left;"><strong>My role:</strong>
+                        <a href = "https://www.pm61data.com/">Promethium</a> is a cloud BI company based in Menlo Park, California. There, I 
+                        worked primarily on the company's backend infrastructure, developing various
+                        APIs to improve current feature components. One of the prototypes,
+                        an AWS Lambda Stepfunction to initialize the execution and retrieval of SQL query results via Presto,
+                        was selected to be the primary infrastucture for which asynchronous SQL queries were run in production environments,
+                        enabling users to perform long-running queries with 2x faster execution times. I also developed a web application that 
+                        visualizes status of 10+ repository pipelines and code coverage at a glance. 
+                    </p>
+                    <p style = "font-size: 17px; text-align: left;"><strong>Tools used:</strong> 
+                        AWS Serverless, AWS DynamoDB, AWS S3, Flask, HTML, CSS, JavaScript
+                    </p>
+                    <ul class = "icons">
+                        <li><a href="https://www.pm61data.com/" class="fas fa-globe" target="_blank" title="Promethium">Promethium</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- The Modal -->
+        <div id="oxy-work-modal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div>Oxy Internship and On-Campus Work</div>
+                <div style = "text-transform: none; letter-spacing: 0em; line-height: 1.5;">
+                    <p style = "font-size: 17px; text-align: left;"><strong>Dates:</strong> May 2019 - May 2019</p>
+                    <p style = "font-size: 17px; text-align: left;"><strong>My role:</strong>
+                        I developed applications
+                        that automate and accelerate the various facets of web research conducted by the Department of Advancement Services. Working with a
+                        100,000+ constituent filled database, I used a Python Oracle Database client, Selenium, and BeautifulSoup 
+                        to identify 300+ undetected alumns currently working at companies with matching gift programs, find
+                        50+ deceased alums not yet labeled via named-entity recognition and cross-references with ~30,000 alumns,
+                        and create a script to visualizes the shortest path of relatedness between any two school affiliates.  
+                    </p>
+                    <p style = "font-size: 17px; text-align: left;"><strong>Tools used:</strong> 
+                        Python, Oracle SQL Developer, Selenium, BeautifulSoup 
+                    </p>
+                    <ul class = "icons">
+                        <li><a href="https://www.oxy.edu/giving/contact-us" class="fas fa-globe" target="_blank" title="Oxy Advancement Services">Oxy Advancement Services</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -43,4 +194,31 @@
     </div>
 </div>
 </body>
+<script>
+
+
+// When the user clicks on the button, open the modal
+function displayModal(modal_id_name, num_close_span) {
+    // Get the modal
+    var modal = document.getElementById(modal_id_name);
+    modal.style.display = "block";
+
+    // Get the <span> element that closes the modal
+    span = document.getElementsByClassName("close")[num_close_span];
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+}
+
+</script>
 </html>
