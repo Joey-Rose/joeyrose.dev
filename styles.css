@@ -155,7 +155,7 @@ ul.icons li a:before {
 /* projects page responsive sizing */
 @media(min-width: 2000px) {
     #projects {
-        transform: scale(2.0);
+        transform: scale(1.5);
     }
     .projectContainer {
         width: 40%;
