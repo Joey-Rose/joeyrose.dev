@@ -1,0 +1,196 @@
+<html lang=en>
+<head>
+    <meta charset=utf-8>
+    <title>Lines</title>
+    </head>
+    <body onload="init()">
+        <script>
+        var canvas, ctx, container;
+        canvas = document.createElement( 'canvas' );
+        ctx = canvas.getContext("2d");
+
+        // logic for creating lines!
+        let fromXY, toXY;
+        document.onclick = clickHandler;   
+        document.onmousemove = decideLineHandler;
+        resetLinePoints();
+        
+        // var ball;
+        let balls = [];
+        let lines = [];
+
+        // Velocity x
+        // var vx = 5.0;
+        // Velocity y = -15
+        // var vy;
+
+        const gravity = 0.5;  
+        const bounce = 0.7; 
+
+        function init(){
+            setupCanvas();
+            // vy = (Math.random() * -15) + -5;
+            // vy = -15;
+            balls.push(new Ball());
+
+        }
+
+        function draw() {
+            // clears the specified pixels within a given rectangle
+            ctx.clearRect(0,0,canvas.width, canvas.height);  
+
+            for (ball of balls) {
+                // ball.collide();
+                ball.move();
+                ball.display();  
+            }
+
+            for (line of lines) {
+                line.display();
+            }
+
+            // if user is picking where to put line, draw this change
+            if (typeof fromXY.x !== "undefined") {
+                drawLineUpdates();
+            }
+            
+            // // draw circle
+            // ctx.beginPath();
+            // ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2, false);
+            // ctx.fillStyle = ball.color;
+            // ctx.fill();
+            // ctx.closePath();
+
+            // // draw the line
+            // ctx.beginPath();
+            // ctx.moveTo(fromXY.x, fromXY.y);
+            // ctx.lineTo(toXY.x, toXY.y);
+            // ctx.stroke();
+            // ctx.closePath();
+            
+            // adjust next location of the ball. If collision occurs, modify the x or y velocity of the ball
+            // ballMovement();
+        }
+
+        setInterval(draw, 1000/35); 
+
+        //setup canvas
+        function setupCanvas() {
+            container = document.createElement( 'div' );
+            container.className = "container";
+
+            canvas.width = window.innerWidth; 
+            canvas.height = window.innerHeight; 
+            document.body.appendChild( container );
+            container.appendChild(canvas);	
+
+            // ctx.strokeStyle = "#ffffff";
+            // ctx.lineWidth =2;	
+            // ctx.lineWidth =10;
+        }
+
+        function resetLinePoints() {
+            fromXY = {};
+            toXY = {};
+        }
+
+        function drawLineUpdates() {
+            // console.log("drawing");
+            ctx.beginPath();
+            ctx.moveTo(fromXY.x, fromXY.y);
+            ctx.lineTo(toXY.x, toXY.y);
+            ctx.stroke();
+            ctx.closePath();
+        }
+
+        function clickHandler(e) {
+            // if you haven't yet created a starting point for the line, make one!
+            console.log("click happened");
+            if (typeof fromXY.x === "undefined") {
+                console.log("updating vals");
+                fromXY.x = e.clientX;
+                fromXY.y = e.clientY;
+            } 
+            // if you're adding the ending point for the line, add start/end points to the array of line start/end points
+            // then, reset the start/end points
+            else {
+                console.log(JSON.stringify(fromXY));
+                console.log(JSON.stringify(toXY));
+                lines.push(new Line(fromXY, toXY));
+                resetLinePoints();
+            }
+        }
+
+        function decideLineHandler(e) {
+            // if the line has a starting point, update the end values for the line, and draw the line updates in real time
+            if (typeof fromXY.x !== "undefined") {
+                console.log("updating line");
+                toXY.x = e.clientX;
+                toXY.y = e.clientY;
+                
+                // let the line drawing updates happen naturally via the draw() function
+            }
+        }
+
+        class Ball {
+            constructor() {
+                this.x = canvas.width / 2;
+                this.y = 100;
+                this.vx = 5;
+                this.vy = -15;
+                this.ballRadius = 15;
+                this.ballIndex = balls.length;
+            }
+            
+            move() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += gravity;
+                
+                // if either wall is hit, change direction on x axis
+                if (this.x + this.ballRadius > canvas.width || this.x - this.ballRadius < 0){
+                    this.vx *= -1;
+                } 
+                
+                    // ball hits the floor
+                if (this.y + this.ballRadius > canvas.height){
+                    
+                    // re-position the ball to be exactly on the bottom of the window
+                    this.y = canvas.height - this.ballRadius;
+
+                    // bounce the ball
+                    this.vy *= -bounce;
+                    // if the velocity of the vertical bounce of the ball is super small, set it to 0. Otherwise, the ball will never stop bouncing
+                    if(this.vy<0 && this.vy>-2.1) this.vy=0;            
+                }
+            }
+            display() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.ballRadius, 0, Math.PI*2, false);
+                ctx.fillStyle = "black";
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+
+        class Line {
+            fromXY = {};
+            toXY = {};
+            constructor (fromXY, toXY) {
+                this.fromXY.x = fromXY.x;
+                this.fromXY.y = fromXY.y;
+                this.toXY.x = toXY.x;
+                this.toXY.y = toXY.y;
+            }
+
+            display() {
+                ctx.beginPath();
+                ctx.moveTo(this.fromXY.x, this.fromXY.y);
+                ctx.lineTo(this.toXY.x, this.toXY.y);
+                ctx.stroke();
+                ctx.closePath();
+            }
+        }
+        </script>
+    </body>
+</html>
