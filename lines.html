@@ -26,6 +26,8 @@
 
         const gravity = 0.5;  
         const bounce = 0.7; 
+        const BALL_RADIUS = 15;
+
 
         function init(){
             setupCanvas();
@@ -138,8 +140,7 @@
                 this.y = 100;
                 this.vx = 5;
                 this.vy = -15;
-                this.ballRadius = 15;
-                this.ballIndex = balls.length;
+                // this.ballIndex = balls.length;
             }
             
             move() {
@@ -148,15 +149,15 @@
                 this.vy += gravity;
                 
                 // if either wall is hit, change direction on x axis
-                if (this.x + this.ballRadius > canvas.width || this.x - this.ballRadius < 0){
+                if (this.x + BALL_RADIUS > canvas.width || this.x - BALL_RADIUS < 0){
                     this.vx *= -1;
                 } 
                 
                     // ball hits the floor
-                if (this.y + this.ballRadius > canvas.height){
+                if (this.y + BALL_RADIUS > canvas.height){
                     
                     // re-position the ball to be exactly on the bottom of the window
-                    this.y = canvas.height - this.ballRadius;
+                    this.y = canvas.height - BALL_RADIUS;
 
                     // bounce the ball
                     this.vy *= -bounce;
@@ -164,9 +165,14 @@
                     if(this.vy<0 && this.vy>-2.1) this.vy=0;            
                 }
             }
+
+            collide() {
+                // TODO  
+            } 
+
             display() {
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.ballRadius, 0, Math.PI*2, false);
+                ctx.arc(this.x, this.y, BALL_RADIUS, 0, Math.PI*2, false);
                 ctx.fillStyle = "black";
                 ctx.fill();
                 ctx.closePath();
