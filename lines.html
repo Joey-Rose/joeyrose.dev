@@ -42,7 +42,7 @@
             ctx.clearRect(0,0,canvas.width, canvas.height);  
 
             for (ball of balls) {
-                // ball.collide();
+                ball.collide();
                 ball.move();
                 ball.display();  
             }
@@ -167,7 +167,43 @@
             }
 
             collide() {
-                // TODO  
+                let line;
+                for (line of lines) {
+                    // console.log(JSON.stringify(line));
+                    let lineDx = Math.abs(line.toXY.x - line.fromXY.x);
+                    let lineDy = Math.abs(line.toXY.y - line.fromXY.y);
+
+                    // find angle of line
+                    let lineAngle = Math.atan2(lineDx, lineDy);
+
+                    // line midpoint calculation
+                    let lineMidX = Math.floor((line.toXY.x + line.fromXY.x) / 2);
+                    let lineMidY = Math.floor((line.toXY.y + line.fromXY.y) / 2);
+
+                    // find dx and dy of ball to line
+                    let ballToLineMidDx = Math.abs(this.x - lineMidX);
+                    let ballToLineMidDy = Math.abs(this.y - lineMidY);
+
+                    // find temp dy of ball to line
+                    let tempBallToLineDy = -(Math.sin(lineAngle) * ballToLineMidDx) + (Math.cos(lineAngle) * ballToLineMidDy);
+                    tempBallToLineDy = Math.abs(tempBallToLineDy);
+                    console.log("tempBallToLineDy is " + tempBallToLineDy);
+
+                    // check if distance is less than ball radius
+                    if (tempBallToLineDy < BALL_RADIUS) {
+                        this.vy = -10;
+                        // // ball has collided with the line
+                        // // find new velocity for the ball now
+                        // let tempVx = (Math.cos(lineAngle) * this.vx) + (Math.sin(lineAngle) * this.vy);
+                        // let tempVy = -(Math.sin(lineAngle) * this.vx) + (Math.cos(lineAngle) * this.vy);
+
+                        // tempVy *= -1;
+
+                        // // restore temp velocities to new velocities in proper orientation
+                        // this.vx = (Math.cos(lineAngle) * tempVx) + (Math.sin(lineAngle) * tempVy);
+                        // this.vy = (Math.sin(lineAngle) * tempVx) + -(Math.cos(lineAngle) * tempVy);
+                    }
+                }
             } 
 
             display() {
