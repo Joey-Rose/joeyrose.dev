@@ -69,7 +69,6 @@ class Line {
   }
 }
 
-
 var context = document.querySelector("canvas").getContext("2d");
 
 // logic for creating lines!
@@ -104,15 +103,15 @@ function loop() {
     ball.move(width, height);
   }
 
+  // if user is picking where to put line, draw this change
+  if (typeof fromXY.x !== "undefined") {
+    drawLineUpdates();
+  }
+
   // display lines
   for (let index = 0; index < lines.length; index++) {
     let line = lines[index];
     line.display();
-
-     // if user is picking where to put line, draw this change
-     if (typeof fromXY.x !== "undefined") {
-      drawLineUpdates();
-  }
   }
 }
 
@@ -120,28 +119,28 @@ function clickHandler(e) {
   // if you haven't yet created a starting point for the line, make one!
   console.log("click happened");
   if (typeof fromXY.x === "undefined") {
-      console.log("updating vals");
-      fromXY.x = e.clientX;
-      fromXY.y = e.clientY;
-  } 
+    console.log("updating vals");
+    fromXY.x = e.clientX;
+    fromXY.y = e.clientY;
+  }
   // if you're adding the ending point for the line, add start/end points to the array of line start/end points
   // then, reset the start/end points
   else {
-      console.log(JSON.stringify(fromXY));
-      console.log(JSON.stringify(toXY));
-      lines.push(new Line(fromXY, toXY));
-      resetLinePoints();
+    console.log(JSON.stringify(fromXY));
+    console.log(JSON.stringify(toXY));
+    lines.push(new Line(fromXY, toXY));
+    resetLinePoints();
   }
 }
 
 function decideLineHandler(e) {
   // if the line has a starting point, update the end values for the line, and draw the line updates in real time
   if (typeof fromXY.x !== "undefined") {
-      console.log("updating line");
-      toXY.x = e.clientX;
-      toXY.y = e.clientY;
-      
-      // let the line drawing updates happen naturally via the draw() function
+    console.log("updating line");
+    toXY.x = e.clientX;
+    toXY.y = e.clientY;
+
+    // let the line drawing updates happen naturally via the draw() function
   }
 }
 
@@ -157,6 +156,3 @@ function drawLineUpdates() {
   context.stroke();
   context.closePath();
 }
-
-
-
