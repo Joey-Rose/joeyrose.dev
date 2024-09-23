@@ -1,4 +1,4 @@
-const gravity = 0.5;
+const gravity = 0.01;
 const bounce = 0.7;
 
 class Ball {
@@ -6,7 +6,7 @@ class Ball {
     this.x = document.documentElement.clientWidth / 2;
     this.y = 100;
     this.vx = 5;
-    this.vy = 15;
+    this.vy = 1;
     this.radius = 15;
   }
 
@@ -15,6 +15,29 @@ class Ball {
     this.y += this.vy;
     this.vy += gravity;
 
+    // check for any line collisions
+    for (let index = 0; index < lines.length; index++) {
+      let line = lines[index];
+
+      if (this.radius > pointToSegmentDistance(this.x, this.y, line.fromXY.x, line.fromXY.y, line.toXY.x, line.toXY.y)) {
+        // lit has been hit. TODO: change x and y velocity here
+        console.log("line has been hit. minX is ", line.minX, "maxX is ", line.maxX, "angle is ", line.angle);
+        let result = this.reflectVelocity(line.angle);
+        let newVx = result[0];
+        let newVy = result[1];  
+        
+        console.log("new vx is ", newVx, " new vy is", newVy);
+        this.vx = newVx;
+        this.vy = newVy;
+
+        this.x += this.vx;
+    this.y += this.vy;
+
+        // this.x = document.documentElement.clientWidth / 2;
+        // this.y = 100;
+      }
+    }
+    
     // if either wall is hit, change direction on x axis
     if (this.x + this.radius > width || this.x - this.radius < 0) {
       this.vx *= -1;
@@ -30,6 +53,23 @@ class Ball {
       // if the velocity of the vertical bounce of the ball is super small, set it to 0. Otherwise, the ball will never stop bouncing
       if (this.vy < 0 && this.vy > -2.1) this.vy = 0;
     }
+  }
+
+  reflectVelocity(thetaInRadians) {
+    console.log("theta is ", thetaInRadians);
+    
+    // Decompose the velocity into tangential and normal components
+    let v_t = this.vx * Math.cos(thetaInRadians) + this.vy * Math.sin(thetaInRadians);   // Tangential velocity
+    let v_n = -this.vx * Math.sin(thetaInRadians) + this.vy * Math.cos(thetaInRadians);  // Normal velocity
+  
+    // Reflect the normal component (reverse its direction)
+    v_n = -v_n;
+  
+    // Recompose the new velocity
+    let newVx = Math.floor(v_t * Math.cos(thetaInRadians) + v_n * Math.sin(thetaInRadians));
+    let newVy = Math.floor(v_t * Math.sin(thetaInRadians) - v_n * Math.cos(thetaInRadians));
+  
+    return [ newVx, newVy * -1 ];
   }
 
   display() {
@@ -48,16 +88,16 @@ class Line {
     this.fromXY.y = fromXY.y;
     this.toXY.x = toXY.x;
     this.toXY.y = toXY.y;
-    this.minX = Math.min(toXY.x, fromXY.x);
-    this.maxX = Math.max(toXY.x, fromXY.x);
+    this.minX = fromXY.x < toXY.x ? fromXY : toXY;
+    this.maxX = fromXY.x > toXY.x ? fromXY : toXY;
     this.angle = Math.atan2(
-      Math.abs(toXY.y - fromXY.y),
-      Math.abs(toXY.x - fromXY.x)
+      this.minX.y - this.maxX.y, // opposite since y is positive in downward direction
+      this.maxX.x - this.minX.x
     );
-    this.midX = (toXY.x + fromXY.x) / 2;
-    this.midY = (toXY.y + fromXY.y) / 2;
-    this.sine = Math.sin(this.angle);
-    this.cosine = Math.cos(this.angle);
+    // this.midX = (toXY.x + fromXY.x) / 2;
+    // this.midY = (toXY.y + fromXY.y) / 2;
+    // this.sine = Math.sin(this.angle);
+    // this.cosine = Math.cos(this.angle);
   }
 
   display() {
@@ -155,4 +195,36 @@ function drawLineUpdates() {
   context.lineTo(toXY.x, toXY.y);
   context.stroke();
   context.closePath();
+}
+
+function pointToSegmentDistance(x0, y0, x1, y1, x2, y2) {
+  let A = x0 - x1;
+  let B = y0 - y1;
+  let C = x2 - x1;
+  let D = y2 - y1;
+
+  let dot = A * C + B * D;
+  let len_sq = C * C + D * D;
+  let param = -1;
+  
+  if (len_sq != 0) { // in case of zero length line
+      param = dot / len_sq;
+  }
+
+  let xx, yy;
+
+  if (param < 0) {
+      xx = x1;
+      yy = y1;
+  } else if (param > 1) {
+      xx = x2;
+      yy = y2;
+  } else {
+      xx = x1 + param * C;
+      yy = y1 + param * D;
+  }
+
+  let dx = x0 - xx;
+  let dy = y0 - yy;
+  return Math.sqrt(dx * dx + dy * dy);
 }
