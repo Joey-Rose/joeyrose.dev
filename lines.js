@@ -20,18 +20,18 @@ class Ball {
       let line = lines[index];
 
       if (this.radius > pointToSegmentDistance(this.x, this.y, line.fromXY.x, line.fromXY.y, line.toXY.x, line.toXY.y)) {
-        // lit has been hit. TODO: change x and y velocity here
-        console.log("line has been hit. minX is ", line.minX, "maxX is ", line.maxX, "angle is ", line.angle);
+        console.log("line has been hit. minX is ", line.minX, "maxX is ", line.maxX, "angle is ", line.angle * (180/Math.PI));
         let result = this.reflectVelocity(line.angle);
         let newVx = result[0];
         let newVy = result[1];  
         
+        console.log("orig vx is ", this.vx, " orig vy is", this.vy);
         console.log("new vx is ", newVx, " new vy is", newVy);
         this.vx = newVx;
         this.vy = newVy;
 
         this.x += this.vx;
-    this.y += this.vy;
+        this.y += this.vy;
 
         // this.x = document.documentElement.clientWidth / 2;
         // this.y = 100;
@@ -58,18 +58,44 @@ class Ball {
   reflectVelocity(thetaInRadians) {
     console.log("theta is ", thetaInRadians);
     
-    // Decompose the velocity into tangential and normal components
-    let v_t = this.vx * Math.cos(thetaInRadians) + this.vy * Math.sin(thetaInRadians);   // Tangential velocity
-    let v_n = -this.vx * Math.sin(thetaInRadians) + this.vy * Math.cos(thetaInRadians);  // Normal velocity
-  
-    // Reflect the normal component (reverse its direction)
-    v_n = -v_n;
-  
-    // Recompose the new velocity
-    let newVx = Math.floor(v_t * Math.cos(thetaInRadians) + v_n * Math.sin(thetaInRadians));
-    let newVy = Math.floor(v_t * Math.sin(thetaInRadians) - v_n * Math.cos(thetaInRadians));
-  
-    return [ newVx, newVy * -1 ];
+    // // Decompose the velocity into (unit) tangential and normal components
+    // let v_t_unit = [Math.cos(thetaInRadians), Math.sin(thetaInRadians)];  // Tangential unit vector
+    // let v_n_unit = [-Math.sin(thetaInRadians), Math.cos(thetaInRadians)]; // Normal unit vector
+    
+    // // Project the velocity onto the tangential and normal components
+    // let v_t_magnitude = this.vx * v_t_unit[0] + this.vy * v_t_unit[1];   // Scalar projection onto tangential
+    // let v_n_magnitude = this.vx * v_n_unit[0] + this.vy * v_n_unit[1];   // Scalar projection onto normal
+    
+    // let v_t = v_t_unit.map(component => component * v_t_magnitude);   // Tangential velocity (unchanged after collision)
+    // let v_n = v_n_unit.map(component => (component * v_n_magnitude) * -1);   // Normal velocity (will be reversed)
+
+    // // Reflect the normal component (invert its direction)
+    // let v_n_reflected = v_n.map(component => component);
+
+    // console.log("normal vector before reflection is ", v_n);
+    // console.log("normal vector after reflection is ", v_n_reflected);
+
+    // console.log("parallel vector is ", v_t);
+    
+    // // Return the reflected velocity (tangential unchanged, normal reversed)
+    // return [v_t[0] + v_n_reflected[0], v_t[1] + v_n_reflected[1]];
+
+    // Tangential and normal unit vectors
+    let v_t_unit = [Math.cos(thetaInRadians), -Math.sin(thetaInRadians)];
+    let v_n_unit = [-Math.sin(thetaInRadians), -Math.cos(thetaInRadians)];
+    
+    // Project velocity onto tangential and normal components
+    let v_t = this.vx * v_t_unit[0] + this.vy * v_t_unit[1];  // Tangential component
+    let v_n = this.vx * v_n_unit[0] + this.vy * v_n_unit[1];  // Normal component
+    
+    // Reflect normal component (reverse direction)
+    let v_n_reflected = -v_n;
+    
+    // Recompose the velocity vector
+    let newVx = v_t * v_t_unit[0] + v_n_reflected * v_n_unit[0];
+    let newVy = v_t * v_t_unit[1] + v_n_reflected * v_n_unit[1];
+    
+    return [newVx, newVy];
   }
 
   display() {
